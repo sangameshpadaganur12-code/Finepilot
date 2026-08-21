@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* FinPilot — premium fintech palette (light) */
+    --background: 40 33% 99%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 199 89% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 199 89% 48%;
+    --accent-foreground: 0 0% 100%;
+
+    --success: 152 56% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 20% 91%;
+    --input: 210 20% 88%;
+    --ring: 199 89% 48%;
+
+    --chart-1: 199 89% 48%;
+    --chart-2: 152 56% 40%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 246 78% 60%;
+    --chart-5: 340 75% 55%;
+
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 222 47% 7%;
+    --foreground: 210 20% 96%;
+
+    --card: 222 40% 10%;
+    --card-foreground: 210 20% 96%;
+
+    --popover: 222 40% 10%;
+    --popover-foreground: 210 20% 96%;
+
+    --primary: 199 89% 55%;
+    --primary-foreground: 222 47% 7%;
+
+    --secondary: 222 30% 16%;
+    --secondary-foreground: 210 20% 96%;
+
+    --muted: 222 30% 16%;
+    --muted-foreground: 215 18% 65%;
+
+    --accent: 199 89% 55%;
+    --accent-foreground: 222 47% 7%;
+
+    --success: 152 56% 45%;
+    --success-foreground: 222 47% 7%;
+
+    --warning: 38 92% 55%;
+    --warning-foreground: 222 47% 7%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 222 30% 18%;
+    --input: 222 30% 20%;
+    --ring: 199 89% 55%;
+
+    --chart-1: 199 89% 55%;
+    --chart-2: 152 56% 45%;
+    --chart-3: 38 92% 55%;
+    --chart-4: 246 78% 65%;
+    --chart-5: 340 75% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.4) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.4) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .fade-mask-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+}
+
+/* Refined scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+  background-clip: content-box;
+}
