@@ -165,8 +165,17 @@ CREATE POLICY "anon_update_recommendations" ON recommendations FOR UPDATE TO ano
 DROP POLICY IF EXISTS "anon_delete_recommendations" ON recommendations;
 CREATE POLICY "anon_delete_recommendations" ON recommendations FOR DELETE TO anon, authenticated USING (true);
 
-CREATE INDEX IF NOT EXISTS idx_goals_profile ON goals(profile_id);
-CREATE INDEX IF NOT EXISTS idx_transactions_profile ON transactions(profile_id);
-CREATE INDEX IF NOT EXISTS idx_portfolio_profile ON portfolio_holdings(profile_id);
-CREATE INDEX IF NOT EXISTS idx_recommendations_profile ON recommendations(profile_id);
-CREATE INDEX IF NOT EXISTS idx_financial_profiles_profile ON financial_profiles(profile_id);
+CREATE INDEX IF NOT EXISTS idx_goals_user
+ON goals(user_id);
+
+CREATE INDEX IF NOT EXISTS idx_transactions_user
+ON transactions(user_id);
+
+CREATE INDEX IF NOT EXISTS idx_portfolio_holdings_user
+ON portfolio_holdings(user_id);
+
+CREATE INDEX IF NOT EXISTS idx_recommendations_user
+ON recommendations(user_id);
+
+CREATE INDEX IF NOT EXISTS idx_financial_profiles_user
+ON financial_profiles(user_id);

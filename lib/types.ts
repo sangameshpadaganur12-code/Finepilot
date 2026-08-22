@@ -108,3 +108,99 @@ export interface MoneySnapshot {
   investments: number;
   netFinancialAssets: number;
 }
+
+/* =================== NEW TYPES =================== */
+
+export interface BudgetCategory {
+  name: string;
+  budgeted: number;
+  actual: number;
+  type: 'income' | 'expense' | 'investment' | 'savings';
+  essential: boolean;
+  overspent?: boolean;
+}
+
+export interface Budget {
+  income: number;
+  categories: BudgetCategory[];
+  totalBudgeted: number;
+  totalActual: number;
+  remaining: number;
+  savingsRate: number;
+  overspendingAlerts: string[];
+}
+
+export interface SIPAllocation {
+  category: string;
+  percentage: number;
+  monthlyAmount: number;
+  rationale: string;
+}
+
+export interface SIPProjection {
+  year: number;
+  totalValue: number;
+  breakdown: Record<string, number>;
+  totalInvested: number;
+}
+
+export interface GoalProjection {
+  goal: Goal;
+  projectedValue: number;
+  shortfall: number;
+  probability: number;
+  requiredMonthly: number;
+  onTrack: boolean;
+}
+
+export interface DecisionAction {
+  id: string;
+  title: string;
+  description: string;
+  category: 'Safety' | 'Investing' | 'Goals' | 'Cashflow' | 'Overall';
+  priority: number;
+  impact: 'High' | 'Medium' | 'Low';
+  effort: 'High' | 'Medium' | 'Low';
+  action: string;
+  metric: string;
+}
+
+export interface CopilotContext {
+  income: number;
+  expenses: number;
+  fixedExpenses: number;
+  variableExpenses: number;
+  monthlyInvestable: number;
+  savingsRate: number;
+  netWorth: number;
+  emergencyMonths: number;
+  financialHealthScore: number;
+  riskProfile: string;
+  investmentHorizon: string;
+  primaryGoal: string;
+  goals: Array<{
+    name: string;
+    target: number;
+    current: number;
+    targetYear: number;
+    monthlyContribution: number;
+  }>;
+  portfolio: Array<{
+    name: string;
+    assetClass: string;
+    value: number;
+    platform: string;
+  }>;
+  portfolioAllocation: Array<{
+    assetClass: string;
+    value: number;
+    share: number;
+  }>;
+  budget: BudgetCategory[];
+  sipAllocation: SIPAllocation[];
+  topActions: Array<{
+    title: string;
+    action: string;
+    category: string;
+  }>;
+}

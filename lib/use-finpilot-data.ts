@@ -30,8 +30,6 @@ export interface FinPilotData {
   usingDemo: boolean;
 }
 
-const PROFILE_ID = DEMO_PROFILE.id;
-
 /**
  * Maps a DB row (snake_case) to our camelCase domain types.
  */
@@ -111,8 +109,8 @@ function rowToRecommendation(r: any): Recommendation {
 }
 
 /**
- * Loads the full FinPilot dataset for the demo profile from Supabase,
- * falling back to deterministic demo data on any error or empty result.
+ * Loads the full FinPilot dataset for the authenticated user from Supabase,
+ * falling back to deterministic demo data when not authenticated or on error.
  */
 export function useFinPilotData(): FinPilotData {
   const [data, setData] = useState<FinPilotData>({
@@ -131,6 +129,27 @@ export function useFinPilotData(): FinPilotData {
 
     async function load() {
       try {
+        // First, get the current authenticated user
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+          // No authenticated user - use demo data
+          if (cancelled) return;
+          setData({
+            profile: DEMO_PROFILE,
+            financialProfile: DEMO_FINANCIAL_PROFILE,
+            goals: DEMO_GOALS,
+            transactions: DEMO_TRANSACTIONS,
+            holdings: DEMO_HOLDINGS,
+            recommendations: DEMO_RECOMMENDATIONS,
+            loading: false,
+            usingDemo: true,
+          });
+          return;
+        }
+
+        const userId = user.id;
+
         const [
           { data: profileRow },
           { data: fpRow },
@@ -139,27 +158,27 @@ export function useFinPilotData(): FinPilotData {
           { data: holdingRows },
           { data: recRows },
         ] = await Promise.all([
-          supabase.from('profiles').select('*').eq('id', PROFILE_ID).maybeSingle(),
+          supabase.from('profiles').select('*').eq('id', userId).maybeSingle(),
           supabase
             .from('financial_profiles')
             .select('*')
-            .eq('profile_id', PROFILE_ID)
+            .eq('profile_id', userId)
             .maybeSingle(),
-          supabase.from('goals').select('*').eq('profile_id', PROFILE_ID).order('target_year'),
+          supabase.from('goals').select('*').eq('profile_id', userId).order('target_year'),
           supabase
             .from('transactions')
             .select('*')
-            .eq('profile_id', PROFILE_ID)
+            .eq('profile_id', userId)
             .order('month'),
           supabase
             .from('portfolio_holdings')
             .select('*')
-            .eq('profile_id', PROFILE_ID)
+            .eq('profile_id', userId)
             .order('current_value', { ascending: false }),
           supabase
             .from('recommendations')
             .select('*')
-            .eq('profile_id', PROFILE_ID)
+            .eq('profile_id', userId)
             .order('priority'),
         ]);
 
