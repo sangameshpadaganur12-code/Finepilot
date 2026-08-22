@@ -18,7 +18,10 @@ const jakarta = Plus_Jakarta_Sans({
   display: 'swap',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'FinPilot — Your money is complicated. Your decisions shouldn\u2019t be.',
   description:
     'FinPilot turns your financial data into clear, personalized actions so you can make better money decisions with confidence.',
